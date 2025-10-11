@@ -1,6 +1,6 @@
 const { WatchLog } = require("../models");
 const { User } = require("../models");
-const { fn, col, literal } = require("sequelize");
+const { literal } = require("sequelize");
 
 async function createWatchLog(data) {
   return await WatchLog.create(data);
