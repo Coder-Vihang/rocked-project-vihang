@@ -4,17 +4,19 @@ const { compareStrings } = require("../utils/string.utils")
 const { Constants } = require("../constants")
 
 
-async function getUserLeaderBoard(params) {
+async function getUserLeaderBoard(filters) {
 
-    const { name, gender, department, page = Constants.DefaultPageNumber, limit = Constants.DefaultPageSize } = params;
+    const { name, gender, department, page = Constants.DefaultPageNumber, limit = Constants.DefaultPageSize } = filters;
 
+    const numericPage = parseInt(page);
+    const numericLimit = parseInt(limit)
 
-    const userRankedData = await findLeaderBoard(page, limit)
+    const userRankedData = await findLeaderBoard()
 
     const rankedData = userRankedData.map((user, index) => ({
         ...user,
         userName: `${user.title} ${user.first} ${user.last}`,
-        rank: (page - 1) * limit + index + 1,
+        rank: index+1,
     }));
 
     let filteredData = rankedData;
@@ -39,12 +41,12 @@ async function getUserLeaderBoard(params) {
         );
     }
 
-    const startIndex = (page - 1) * limit;
-    const paginatedData = filteredData.slice(startIndex, startIndex + limit);
+const startIndex = (numericPage - 1) * numericLimit;
+const paginatedData = filteredData.slice(startIndex, startIndex + numericLimit);
 
     return paginatedData.map((user) => ({
         email: user.email,
-        name: user.name,
+        name: user.userName,
         rank: user.rank,
     }));
 }
