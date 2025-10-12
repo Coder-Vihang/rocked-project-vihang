@@ -22,6 +22,7 @@ async function getUserLeaderBoard(filters) {
     const rankedData = userRankedData.map((user, index) => ({
         email: user.email,
         name: `${user.title} ${user.first} ${user.last}`,
+        points: user.totalpoints ?? 0,
         rank: offset + index + 1
     }));
 

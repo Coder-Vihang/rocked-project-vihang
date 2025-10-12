@@ -1,6 +1,6 @@
 const { WatchLog } = require("../models");
 const { User } = require("../models");
-const { literal, Op } = require("sequelize");
+const { Op, fn, literal, col } = require("sequelize");
 
 async function createWatchLog(data) {
   return await WatchLog.create(data);
@@ -44,21 +44,23 @@ async function findLeaderBoard(name, gender, department, limit, offset) {
       "last",
       "gender",
       "department",
-      [
-        literal(`(
-        SELECT SUM(pointsEarned)
-        FROM WatchLogs wl
-        WHERE wl.userid = User.userid
-      )`),
-        "totalpoints",
-      ],
+      [fn("SUM", col("WatchLogs.pointsEarned")), "totalpoints"]
+    ],
+    include: [
+      {
+        model: WatchLog,
+        attributes: [],
+      },
     ],
     where: whereCondtion,
     limit: limit,
+    subQuery: false,
     offset: offset,
+    group: ["User.userid"],
     order: [[literal("totalpoints"), "DESC"]],
-    raw: true,
+    raw: true
   });
+
 
   return users
 }
