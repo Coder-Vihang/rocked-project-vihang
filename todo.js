@@ -1,3 +1,2 @@
 // Have enums in tables
-
-//make custom error class
+//gender and department

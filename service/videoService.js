@@ -2,14 +2,16 @@ const { findByVideoId } = require('../repository/video.repository');
 const { createWatchLog } = require('../repository/watchLog.repository');
 const { Constants } =require("../constants");
 const { findUserbyEmailId } = require('../repository/user.repository');
+const CustomError = require("../utils/error.utils");
+const { StatusCodes } =require("../enums")
 
 
-getVideoById = async (videoId) => {
+async function getVideoById(videoId){
 
     const videoObject = await findByVideoId(videoId);
 
     if (!videoObject) {
-        throw new Error(`No Video Found with the following VideoId : ${videoId}`)
+        throw new CustomError(`No Video Found with the following VideoId : ${videoId}`, StatusCodes.NotFound)
     }
 
     const { id, title, description, url } = videoObject;
@@ -26,18 +28,18 @@ getVideoById = async (videoId) => {
     return response
 }
 
-submitVideoForUser = async(userEmail, videoId) => {
+async function submitVideoForUser(userEmail, videoId){
 
     const videoObject = await findByVideoId(videoId);
 
     if (!videoObject) {
-        throw new Error(`No Video Found with the following VideoId : ${videoId}`)
+          throw new CustomError(`No Video Found with the following VideoId : ${videoId}`, StatusCodes.NotFound)
     }
 
     const userObject = await findUserbyEmailId(userEmail)
 
      if (!userObject) {
-        throw new Error(`No User Found with the following EMail : ${userEmail}`)
+         throw new CustomError(`No User Found with the following EMail : ${userEmail}`, StatusCodes.NotFound)
     }
 
     const { id } = videoObject;

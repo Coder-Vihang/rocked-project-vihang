@@ -1,4 +1,4 @@
-// models/watchLog.model.js
+
 module.exports = (sequelize, DataTypes) => {
   const WatchLog = sequelize.define("WatchLog", {
     logid: {

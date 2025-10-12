@@ -1,4 +1,6 @@
-// models/user.model.js
+
+const { Gender, Department } = require('../enums')
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define("User", {
     userid: {
@@ -24,10 +26,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     gender: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(Gender.male, Gender.female),
+      allowNull: false,
     },
     department: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(Department.HR, Department.MARKETING, Department.SALES, Department.SERVICES),
+      allowNull: false,
     },
   });
 

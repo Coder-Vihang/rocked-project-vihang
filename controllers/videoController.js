@@ -1,24 +1,27 @@
 
-const { getVideoById, submitVideoForUser } = require('../service/videoService')
+const { getVideoById, submitVideoForUser } = require('../service/videoService');
+const { StatusCodes } = require("../enums")
 
-getVideo = async (req, res) => {
+async function getVideo(req, res) {
   try {
     const { id } = req.params
     const videoResponse = await getVideoById(id);
-    res.status(200).json(videoResponse);
+    res.status(StatusCodes.Success).json(videoResponse);
   } catch (err) {
-    res.status(500).json({ isSuccess: false, error: err?.message });
+    const errorStatusCode = err.statusCode ?? StatusCodes.InternalServerError
+    res.status(errorStatusCode).json({ isSuccess: false, error: err?.message });
   }
 };
 
 
-submitVideo = async(req, res)=>{
+async function submitVideo(req, res) {
   try {
     const { userEmail, id } = req.body
     const videoResponse = await submitVideoForUser(userEmail, id);
-    res.status(200).json(videoResponse);
+    res.status(StatusCodes.Success).json(videoResponse);
   } catch (err) {
-    res.status(500).json({ isSuccess: false, error: err?.message });
+    const errorStatusCode = err.statusCode ?? StatusCodes.InternalServerError
+    res.status(errorStatusCode).json({ isSuccess: false, error: err?.message });
   }
 }
 
