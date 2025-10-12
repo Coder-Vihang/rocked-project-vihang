@@ -4,10 +4,10 @@ function validateValueInList(value, validList, fieldName) {
         message: `Invalid value ${value} entered for fieldName ${fieldName} must be one of ${validList}`
     };
 
-    const normalizedValue = value.trim().toLowerCase();
-    const normalizedList = validList.map(v => v.toLowerCase());
+    const lowerCaseValue = value.trim().toLowerCase();
+    const lowerCaseList = validList.map(v => v.toLowerCase());
 
-    if (!normalizedList.includes(normalizedValue)) {
+    if (!lowerCaseList.includes(lowerCaseValue)) {
 
         return {
             isSuccess: false,
