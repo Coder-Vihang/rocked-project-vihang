@@ -49,16 +49,16 @@ function validateLeaderBoardRequest(gender, department, page, limit) {
 
     }
 
-    //page Number starts from 1 
+    //page Number starts from 1 and a number
 
-    if (page < 1) {
+    if ( isNaN(page) || page < 1) {
         errorArray.push(ErrorMessages.pageLessthanOne);
     }
-
+    
     //limti between 1 and 10 not beyond this rangs
 
-    if (limit < 1 || limit > Constants.DefaultPageSize) {
-        errorArray.push(`Limit must be within the range of 1 and ${Constants.DefaultPageSize}`);
+    if (isNaN(limit) || limit < 1 || limit > Constants.DefaultPageSize) {
+        errorArray.push(`Limit must be within the range of 1 and ${Constants.DefaultPageSize} and must be a number`);
     }
 
     if (errorArray.length > 0) {
