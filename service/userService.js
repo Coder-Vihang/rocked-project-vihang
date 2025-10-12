@@ -62,7 +62,6 @@ function validateLeaderBoardRequest(gender, department, page, limit) {
     }
     
     //limit between 1 and 10 not beyond this rangs
-
     if (isNaN(limit) || limit < 1 || limit > Constants.DefaultPageSize) {
         errorArray.push(`Limit must be within the range of 1 and ${Constants.DefaultPageSize} and must be a number`);
     }
