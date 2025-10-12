@@ -1,7 +1,6 @@
 
 const app = require('./server');
 const videoRoutes = require('./routes/videoRoutes')
-const express = require("express");
 
 
 app.get('/heartbeat', (req, res) => {

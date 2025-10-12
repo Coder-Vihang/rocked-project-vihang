@@ -15,20 +15,21 @@ const User = UserModel(sequelize, DataTypes);
 const Video = VideoModel(sequelize, DataTypes);
 const WatchLog = WatchLogModel(sequelize, DataTypes);
 
-User.hasMany(WatchLog, { foreignKey: "userid" });
-WatchLog.belongsTo(User, { foreignKey: "userid" });
-Video.hasMany(WatchLog, { foreignKey: "videoid" });
-WatchLog.belongsTo(Video, { foreignKey: "videoid" });
+User.hasMany(WatchLog, { foreignKey: "userid", sourceKey: "userid" });
+WatchLog.belongsTo(User, { foreignKey: "userid", targetKey: "userid" });
+
+Video.hasMany(WatchLog, { foreignKey: "videoid", sourceKey: "videoid" });
+WatchLog.belongsTo(Video, { foreignKey: "videoid", targetKey: "videoid" });
+
 
 async function initDB() {
   try {
-    await sequelize.sync({ sync: true });
-
+    await sequelize.sync({alter:true});
     await syncUsers(User);
     await syncVideos(Video);
-    console.log("✅ Syncing complete!");
+    console.log("Syncing complete!");
   } catch (err) {
-    console.error("❌ DB init failed:", err);
+    console.error("DB init failed:", err);
   }
 }
 
