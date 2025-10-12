@@ -1,3 +1,4 @@
+
 const StatusCodes = {
 Ok: 200,
 Created: 201,
@@ -25,9 +26,15 @@ const ValidationFieldNames = {
     department: "department"
 }
 
+const ErrorMessages ={
+    defaultErrorMessage: "Internal Server Error",
+    pageLessthanOne: "Page Number cannot be less than 1",
+}
+
 module.exports={
     StatusCodes,
     Gender,
     Department,
-    ValidationFieldNames
+    ValidationFieldNames,
+    ErrorMessages
 }

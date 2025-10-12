@@ -1,5 +1,5 @@
 const { getUserLeaderBoard } = require("../service/userService")
-const { StatusCodes } = require("../enums")
+const { StatusCodes, ErrorMessages } = require("../enums")
 
 async function getLeaderBoard(req, res) {
   try {
@@ -8,7 +8,7 @@ async function getLeaderBoard(req, res) {
     res.status(StatusCodes.Ok).json(leaderBoardResponse);
   } catch (err) {
      const errorStatusCode = err.statusCode ?? StatusCodes.InternalServerError
-    res.status(errorStatusCode).json({ isSuccess: false, error: err?.message });
+    res.status(errorStatusCode).json({ isSuccess: false, error: err?.message ?? ErrorMessages.defaultErrorMessage  });
   }
 }
 

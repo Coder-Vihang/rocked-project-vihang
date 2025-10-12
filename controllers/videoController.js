@@ -1,6 +1,6 @@
 
 const { getVideoById, submitVideoForUser } = require('../service/videoService');
-const { StatusCodes } = require("../enums")
+const { StatusCodes, ErrorMessages } = require("../enums")
 
 async function getVideo(req, res) {
   try {
@@ -9,7 +9,7 @@ async function getVideo(req, res) {
     res.status(StatusCodes.Ok).json(videoResponse);
   } catch (err) {
     const errorStatusCode = err.statusCode ?? StatusCodes.InternalServerError
-    res.status(errorStatusCode).json({ isSuccess: false, error: err?.message });
+    res.status(errorStatusCode).json({ isSuccess: false, error: err?.message ?? ErrorMessages.defaultErrorMessage });
   }
 };
 
@@ -21,7 +21,7 @@ async function submitVideo(req, res) {
     res.status(StatusCodes.Created).json(videoResponse);
   } catch (err) {
     const errorStatusCode = err.statusCode ?? StatusCodes.InternalServerError
-    res.status(errorStatusCode).json({ isSuccess: false, error: err?.message });
+    res.status(errorStatusCode).json({ isSuccess: false, error: err?.message ?? ErrorMessages.defaultErrorMessage });
   }
 }
 

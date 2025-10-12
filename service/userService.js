@@ -1,7 +1,7 @@
 
 const { findLeaderBoard } = require("../repository/watchLog.repository")
 const { Constants } = require("../constants")
-const { StatusCodes, ValidationFieldNames } = require("../enums")
+const { StatusCodes, ValidationFieldNames, ErrorMessages } = require("../enums")
 const CustomError = require("../utils/error.utils");
 const { validateValueInList } = require("../utils/validate.util")
 
@@ -10,10 +10,10 @@ async function getUserLeaderBoard(filters) {
 
     const { name, gender, department, page = Constants.DefaultPageNumber, limit = Constants.DefaultPageSize } = filters;
 
-    validateLeaderBoardRequest(gender, department, page, limit);
-
     const numericPage = parseInt(page);
-    const numericLimit = parseInt(limit)
+    const numericLimit = parseInt(limit);
+
+    validateLeaderBoardRequest(gender, department, numericPage, numericLimit);
 
     let offset = (numericPage - 1) * numericLimit;
 
@@ -52,7 +52,7 @@ function validateLeaderBoardRequest(gender, department, page, limit) {
     //page Number starts from 1 
 
     if (page < 1) {
-        errorArray.push("Page Number cannot be less than 1");
+        errorArray.push(ErrorMessages.pageLessthanOne);
     }
 
     //limti between 1 and 10 not beyond this rangs
