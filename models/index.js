@@ -27,7 +27,7 @@ async function initDB() {
     await sequelize.sync({alter:true});
     await syncUsers(User);
     await syncVideos(Video);
-    console.log("Syncing complete!");
+    console.log("Users and Videos Syncing complete!");
   } catch (err) {
     console.error("DB init failed:", err);
   }
