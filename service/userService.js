@@ -5,10 +5,16 @@ const { StatusCodes, ValidationFieldNames, ErrorMessages } = require("../enums")
 const CustomError = require("../utils/error.utils");
 const { validateValueInList } = require("../utils/validate.util")
 
+/*** 
+ * get the improtant details such as name, gender, department from the leaderBoardRequest
+ * here i have made sure we only return 10 people every time we query for pagination purpose
+ * then we validate the request. 
+ * get the user ranked data
+***/
 
-async function getUserLeaderBoard(filters) {
+async function getUserLeaderBoard(leaderBoardRequest) {
 
-    const { name, gender, department, page = Constants.DefaultPageNumber, limit = Constants.DefaultPageSize } = filters;
+    const { name, gender, department, page = Constants.DefaultPageNumber, limit = Constants.DefaultPageSize } = leaderBoardRequest;
 
     const numericPage = parseInt(page);
     const numericLimit = parseInt(limit);
@@ -55,7 +61,7 @@ function validateLeaderBoardRequest(gender, department, page, limit) {
         errorArray.push(ErrorMessages.pageLessthanOne);
     }
     
-    //limti between 1 and 10 not beyond this rangs
+    //limit between 1 and 10 not beyond this rangs
 
     if (isNaN(limit) || limit < 1 || limit > Constants.DefaultPageSize) {
         errorArray.push(`Limit must be within the range of 1 and ${Constants.DefaultPageSize} and must be a number`);

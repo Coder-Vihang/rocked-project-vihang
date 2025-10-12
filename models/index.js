@@ -21,7 +21,11 @@ WatchLog.belongsTo(User, { foreignKey: "userid", targetKey: "userid" });
 Video.hasMany(WatchLog, { foreignKey: "videoid", sourceKey: "videoid" });
 WatchLog.belongsTo(Video, { foreignKey: "videoid", targetKey: "videoid" });
 
-
+/*** 
+ * Here we need to initialize the User and Videos Tables
+ * Using alter: true over here to create/modify existing tables to match table models
+ * Getting data from json files and creting them in the sqlite table
+ ***/
 async function initiliazeTables() {
   try {
     await sequelize.sync({alter:true});

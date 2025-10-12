@@ -6,8 +6,13 @@ const CustomError = require("../utils/error.utils");
 const { StatusCodes } =require("../enums")
 
 
-async function getVideoById(videoId){
+/*** 
+ * find the video by id in the request
+ * if not throw error
+ * if video found return the response
+***/
 
+async function getVideoById(videoId){
     const videoObject = await findByVideoId(videoId);
 
     if (!videoObject) {
@@ -27,18 +32,26 @@ async function getVideoById(videoId){
     return response
 }
 
+/*** 
+ * find the user by userEmail in the request
+ * if not throw error
+ * find the video by id in the request
+ * if not throw error
+ * Create WatchLog Object entry in the Table
+***/
+
 async function submitVideoForUser(userEmail, videoId){
+
+     const userObject = await findUserbyEmailId(userEmail)
+
+     if (!userObject) {
+         throw new CustomError(`No User Found with the following EMail : ${userEmail}`, StatusCodes.NotFound)
+    }
 
     const videoObject = await findByVideoId(videoId);
 
     if (!videoObject) {
           throw new CustomError(`No Video Found with the following VideoId : ${videoId}`, StatusCodes.NotFound)
-    }
-
-    const userObject = await findUserbyEmailId(userEmail)
-
-     if (!userObject) {
-         throw new CustomError(`No User Found with the following EMail : ${userEmail}`, StatusCodes.NotFound)
     }
 
     const { videoid } = videoObject;
