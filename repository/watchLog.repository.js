@@ -32,8 +32,8 @@ async function findLeaderBoard(name, gender, department, limit, offset) {
     ];
   }
 
-  if (gender) whereCondtion.gender = gender.toLowerCase();
-  if (department) whereCondtion.department = department.toUpperCase();
+  if (gender) whereCondtion.gender = gender
+  if (department) whereCondtion.department = department
 
   const users = await User.findAll({
     attributes: [

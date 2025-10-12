@@ -3,7 +3,7 @@ function validateValueInList(value, validList, fieldName) {
         isSuccess: false,
         message: `Invalid value ${value} entered for fieldName ${fieldName} must be one of ${validList.join(", ")}`
     };
-
+    
     const lowerCaseValue = value.trim().toLowerCase();
     const lowerCaseList = validList.map(v => v.toLowerCase());
 

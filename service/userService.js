@@ -19,43 +19,32 @@ async function getUserLeaderBoard(leaderBoardRequest) {
     const numericPage = parseInt(page);
     const numericLimit = parseInt(limit);
 
-    validateLeaderBoardRequest(gender, department, numericPage, numericLimit);
+    const normalisedName = name?.trim()
+    const normalisedGender = gender?.trim()?.toLowerCase();
+    const normalisedDepartment = department?.trim()?.toUpperCase();
+
+    validateLeaderBoardRequest(normalisedName, normalisedGender, normalisedDepartment, numericPage, numericLimit);
 
     let offset = (numericPage - 1) * numericLimit;
 
-    const userRankedData = await findLeaderBoard(name, gender, department, numericLimit, offset)
+    const userRankedData = await findLeaderBoard(normalisedName, normalisedGender, normalisedDepartment, numericLimit, offset)
 
     const rankedData = userRankedData.map((user, index) => ({
         email: user.email,
         name: `${user.title} ${user.first} ${user.last}`,
         points: user.totalpoints ?? 0,
+        department: user.department,
+        gender: user.gender,
         rank: offset + index + 1
     }));
 
     return rankedData
 }
 
-function validateLeaderBoardRequest(gender, department, page, limit) {
+function validateLeaderBoardRequest(name, gender, department, page, limit) {
     const errorArray = [];
 
-    //gender in an enum
-    if (gender) {
-        const { isSuccess, message } = validateValueInList(gender, Constants.CorrectGenderList, ValidationFieldNames.gender)
-        if (!isSuccess) {
-            errorArray.push(message)
-        }
-    }
-
-    //department in an enum
-    if (department) {
-        const { isSuccess, message } = validateValueInList(department, Constants.CorrectDepartmentList, ValidationFieldNames.department)
-        if (!isSuccess) {
-            errorArray.push(message)
-        }
-
-    }
-
-    //page Number starts from 1 and a number
+     //page Number starts from 1 and a number
 
     if (isNaN(page) || page < 1) {
         errorArray.push(ErrorMessages.pageLessthanOne);
@@ -65,6 +54,29 @@ function validateLeaderBoardRequest(gender, department, page, limit) {
     if (isNaN(limit) || limit < 1 || limit > Constants.DefaultPageSize) {
         errorArray.push(`Limit must be within the range of 1 and ${Constants.DefaultPageSize} and must be a number`);
     }
+    
+    if(typeof name != undefined && name == ''){
+        errorArray.push('Name cannot be blank');
+    }
+
+    //gender in an enum
+    if (gender || gender == '') {
+        const { isSuccess, message } = validateValueInList(gender, Constants.CorrectGenderList, ValidationFieldNames.gender)
+        if (!isSuccess) {
+            errorArray.push(message)
+        }
+    }
+
+    //department in an enum
+    if (department || department == '') {
+        const { isSuccess, message } = validateValueInList(department, Constants.CorrectDepartmentList, ValidationFieldNames.department)
+        if (!isSuccess) {
+            errorArray.push(message)
+        }
+
+    }
+
+   
 
     if (errorArray.length > 0) {
         throw new CustomError(errorArray.join("; "), StatusCodes.BadRequest);
