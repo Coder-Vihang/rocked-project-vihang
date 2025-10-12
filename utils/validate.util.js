@@ -1,7 +1,7 @@
 function validateValueInList(value, validList, fieldName) {
-    if (!value) return {
+    if (value == null || value.toString().trim() === "") return {
         isSuccess: false,
-        message: `Invalid value ${value} entered for fieldName ${fieldName} must be one of ${validList}`
+        message: `Invalid value ${value} entered for fieldName ${fieldName} must be one of ${validList.join(", ")}`
     };
 
     const lowerCaseValue = value.trim().toLowerCase();
@@ -11,7 +11,7 @@ function validateValueInList(value, validList, fieldName) {
 
         return {
             isSuccess: false,
-            message: `Invalid value ${value} entered fieldName ${fieldName} must be one of ${validList}`
+            message: `Invalid value ${value} entered for fieldName ${fieldName} must be one of ${validList.join(", ")}`
         }
     }
 

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Video = sequelize.define("Video", {
-    videoid: {
+    videoid: { //changing id from id to videoid
       type: DataTypes.INTEGER,
       primaryKey: true,
     },

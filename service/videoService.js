@@ -22,7 +22,6 @@ async function getVideoById(videoId){
         title,
         description,
         url
-
     }
 
     return response
@@ -44,6 +43,7 @@ async function submitVideoForUser(userEmail, videoId){
 
     const { videoid } = videoObject;
 
+    //presently hardcoding it to Default Points
     const watchLogObject = {
         videoid: videoid,
         userid: userObject.userid,
@@ -54,7 +54,7 @@ async function submitVideoForUser(userEmail, videoId){
 
     return {
         isSuccess: true,
-        message: "Log Entry Created Successfully"
+        message: "Watch Log Entry Created Successfully"
     }
 }
 

@@ -5,6 +5,7 @@ const app = express();
 const PORT = 3000;
 
 const startApp = async () => {
+  app.use(express.json());
   app.listen(PORT, (err) => {
     if (!err) {
       console.log("Starting Server");
@@ -12,8 +13,6 @@ const startApp = async () => {
       console.log(err);
     }
   });
-
-  app.use(express.json());
 };
 
 startApp()

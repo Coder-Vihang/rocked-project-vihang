@@ -1,7 +1,7 @@
 
 const { findLeaderBoard } = require("../repository/watchLog.repository")
 const { Constants } = require("../constants")
-const { StatusCodes, Gender } = require("../enums")
+const { StatusCodes, ValidationFieldNames } = require("../enums")
 const CustomError = require("../utils/error.utils");
 const { validateValueInList } = require("../utils/validate.util")
 
@@ -10,7 +10,7 @@ async function getUserLeaderBoard(filters) {
 
     const { name, gender, department, page = Constants.DefaultPageNumber, limit = Constants.DefaultPageSize } = filters;
 
-    validateLeaderBoardRequest(gender, department);
+    validateLeaderBoardRequest(gender, department, page, limit);
 
     const numericPage = parseInt(page);
     const numericLimit = parseInt(limit)
@@ -29,21 +29,36 @@ async function getUserLeaderBoard(filters) {
     return rankedData
 }
 
-function validateLeaderBoardRequest(gender, department) {
+function validateLeaderBoardRequest(gender, department, page, limit) {
     const errorArray = [];
+
+    //gender in an enum
     if (gender) {
-        const { isSuccess, message } = validateValueInList(gender, Constants.CorrectGenderList, "gender")
+        const { isSuccess, message } = validateValueInList(gender, Constants.CorrectGenderList, ValidationFieldNames.gender )
         if (!isSuccess) {
             errorArray.push(message)
         }
     }
 
+    //department in an enum
     if (department) {
-        const { isSuccess, message } = validateValueInList(department, Constants.CorrectDepartmentList, "department")
+        const { isSuccess, message } = validateValueInList(department, Constants.CorrectDepartmentList, ValidationFieldNames.department)
         if (!isSuccess) {
             errorArray.push(message)
         }
 
+    }
+
+    //page Number starts from 1 
+
+    if (page < 1) {
+        errorArray.push("Page Number cannot be less than 1");
+    }
+
+    //limti between 1 and 10 not beyond this rangs
+
+    if (limit < 1 || limit > Constants.DefaultPageSize) {
+        errorArray.push(`Limit must be within the range of 1 and ${Constants.DefaultPageSize}`);
     }
 
     if (errorArray.length > 0) {

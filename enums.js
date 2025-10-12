@@ -20,8 +20,14 @@ const Department = {
     SERVICES: "SERVICES"
 }
 
+const ValidationFieldNames = {
+    gender: "gender",
+    department: "department"
+}
+
 module.exports={
     StatusCodes,
     Gender,
-    Department
+    Department,
+    ValidationFieldNames
 }
