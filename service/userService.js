@@ -40,7 +40,7 @@ function validateLeaderBoardRequest(gender, department, page, limit) {
 
     //gender in an enum
     if (gender) {
-        const { isSuccess, message } = validateValueInList(gender, Constants.CorrectGenderList, ValidationFieldNames.gender )
+        const { isSuccess, message } = validateValueInList(gender, Constants.CorrectGenderList, ValidationFieldNames.gender)
         if (!isSuccess) {
             errorArray.push(message)
         }
@@ -57,10 +57,10 @@ function validateLeaderBoardRequest(gender, department, page, limit) {
 
     //page Number starts from 1 and a number
 
-    if ( isNaN(page) || page < 1) {
+    if (isNaN(page) || page < 1) {
         errorArray.push(ErrorMessages.pageLessthanOne);
     }
-    
+
     //limit between 1 and 10 not beyond this rangs
     if (isNaN(limit) || limit < 1 || limit > Constants.DefaultPageSize) {
         errorArray.push(`Limit must be within the range of 1 and ${Constants.DefaultPageSize} and must be a number`);
