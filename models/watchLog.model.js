@@ -6,15 +6,15 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    videoId: {
+    videoid: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: "Videos", key: "id" },
+      references: { model: "videos", key: "videoid" },
     },
     userid: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: "Users", key: "userid" },
+      references: { model: "users", key: "userid" },
     },
     pointsEarned: {
       type: DataTypes.INTEGER,

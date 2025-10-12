@@ -14,11 +14,11 @@ async function getVideoById(videoId){
         throw new CustomError(`No Video Found with the following VideoId : ${videoId}`, StatusCodes.NotFound)
     }
 
-    const { id, title, description, url } = videoObject;
+    const { videoid, title, description, url } = videoObject;
 
     const response = {
         isSuccess: true,
-        id: id.toString(),
+        id: videoid.toString(),
         title,
         description,
         url
@@ -42,10 +42,10 @@ async function submitVideoForUser(userEmail, videoId){
          throw new CustomError(`No User Found with the following EMail : ${userEmail}`, StatusCodes.NotFound)
     }
 
-    const { id } = videoObject;
+    const { videoid } = videoObject;
 
     const watchLogObject = {
-        videoId: id,
+        videoid: videoid,
         userid: userObject.userid,
         pointsEarned: Constants.DefaultPointsEarned,
     }

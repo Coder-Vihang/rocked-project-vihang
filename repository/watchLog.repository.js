@@ -6,6 +6,21 @@ async function createWatchLog(data) {
   return await WatchLog.create(data);
 };
 
+// SELECT
+//   u.userid AS userId,
+//   u.email AS emailid,
+//   u.department as department,
+//   u.gender as gender,
+//   SUM(wl.pointsEarned) AS totalpoints
+// FROM
+//   WatchLogs wl
+// INNER JOIN
+//   Users u ON wl.userId = u.userid
+// GROUP BY
+//   u.userid, u.email, u. gender, u.department
+// ORDER BY
+//   totalpoints DESC
+
 async function findLeaderBoard(name, gender, department, limit, offset) {
 
   let whereCondtion = {};
@@ -18,7 +33,7 @@ async function findLeaderBoard(name, gender, department, limit, offset) {
   }
 
   if (gender) whereCondtion.gender = gender;
-  if (department) whereCondtion.department = department;
+  if (department) whereCondtion.department = department.toUpperCase();
 
   const users = await User.findAll({
     attributes: [

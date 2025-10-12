@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-const { seedUsers, seedVideos} = require("../addDummyTableData")
+const { syncUsers, syncVideos} = require("../addDummyTableData")
 const UserModel = require("./user.model");
 const VideoModel =  require("./video.model");
 const WatchLogModel = require("./watchLog.model")
@@ -15,23 +15,18 @@ const User = UserModel(sequelize, DataTypes);
 const Video = VideoModel(sequelize, DataTypes);
 const WatchLog = WatchLogModel(sequelize, DataTypes);
 
-User.hasMany(WatchLog, { foreignKey: "userId" });
-WatchLog.belongsTo(User, { foreignKey: "userId" });
-
-
-
-Video.hasMany(WatchLog, { foreignKey: "videoId" });
-WatchLog.belongsTo(Video, { foreignKey: "videoId" });
-
-
+User.hasMany(WatchLog, { foreignKey: "userid" });
+WatchLog.belongsTo(User, { foreignKey: "userid" });
+Video.hasMany(WatchLog, { foreignKey: "videoid" });
+WatchLog.belongsTo(Video, { foreignKey: "videoid" });
 
 async function initDB() {
   try {
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ sync: true });
 
-    await seedUsers(User);
-    await seedVideos(Video);
-    console.log("✅ Seeding complete!");
+    await syncUsers(User);
+    await syncVideos(Video);
+    console.log("✅ Syncing complete!");
   } catch (err) {
     console.error("❌ DB init failed:", err);
   }

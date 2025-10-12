@@ -1,10 +1,10 @@
 
 const { Video } = require("../models");
 
-findByVideoId = async (id) => {
+async function findByVideoId(videoId) {
   return await Video.findOne({
     where: {
-      id,
+      videoid: videoId,
     },
     raw: true
   });

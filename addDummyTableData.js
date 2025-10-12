@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-async function seedUsers(User) {
+async function syncUsers(User) {
     try {
         const filePath = path.join(__dirname, "data", "users.json");
         const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -13,29 +13,31 @@ async function seedUsers(User) {
             await User.upsert(user);
         }
 
-        console.log("Users seeded successfully!");
+        console.log("Users syncing successfully!");
     } catch (err) {
-        console.error("Error seeding users:", err.message);
+        console.error("Error syncing users:", err.message);
     }
 }
 
-async function seedVideos(Video) {
+async function syncVideos(Video) {
     try {
 
         const filePath = path.join(__dirname, "data", "videos.json");
         const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const video of data.results) {
+            video.videoid = video.id
             await Video.upsert(video);
         }
 
-        console.log("Video data seeded successfully!");
+        console.log("Video data synced successfully!");
     } catch (err) {
-        console.error("Error seeding videos:", err.message);
+        console.error("Error syncing videos:", err.message);
     }
 }
 
 module.exports = {
-    seedVideos,
-    seedUsers
+    syncVideos,
+    syncUsers
+
 }
