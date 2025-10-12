@@ -22,7 +22,7 @@ Video.hasMany(WatchLog, { foreignKey: "videoid", sourceKey: "videoid" });
 WatchLog.belongsTo(Video, { foreignKey: "videoid", targetKey: "videoid" });
 
 
-async function initDB() {
+async function initiliazeTables() {
   try {
     await sequelize.sync({alter:true});
     await syncUsers(User);
@@ -33,5 +33,5 @@ async function initDB() {
   }
 }
 
-initDB();
+initiliazeTables();
 module.exports = { sequelize, User, Video, WatchLog };
