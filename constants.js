@@ -4,7 +4,11 @@ const Constants = {
     DefaultPageNumber: 1,
     DefaultPageSize: 10,
     CorrectGenderList: [Gender.male, Gender.female],
-    CorrectDepartmentList: [Department.HR, Department.MARKETING, Department.SALES, Department.SERVICES]
+    CorrectDepartmentList: [Department.HR, Department.MARKETING, Department.SALES, Department.SERVICES],
+    RegexValidations:{
+        EmailRegexValidations: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    }
 }
 
 module.exports = {
