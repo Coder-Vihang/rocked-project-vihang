@@ -31,7 +31,11 @@ const ErrorMessages ={
     pageLessthanOne: "Page Number cannot be less than 1 and must be a number",
     blankName: 'Name cannot be blank',
     emailNotFoundInHeaders: "Unauthorized: EmailId not found in Headers",
-    invalidEmailFormat: "Invalid Email Format in Headers"
+    invalidEmailFormat: "Invalid Email Format in Headers",
+    invalidVideoId: `Please Enter valid id it must be a number`,
+    noVideoFoundforVideoId: "No Video Found with the following VideoId ",
+    videoIdNotInRequest: `id not found in the request`,
+    userNotFoundWithEmail: "No User Found with the following EMail"
 }
 
 module.exports={

@@ -3,7 +3,7 @@ const { createWatchLog } = require('../repository/watchLog.repository');
 const { Constants } = require("../constants");
 const { findUserbyEmailId } = require('../repository/user.repository');
 const CustomError = require("../utils/error.utils");
-const { StatusCodes } = require("../enums")
+const { StatusCodes, ErrorMessages } = require("../enums")
 
 
 /*** 
@@ -14,12 +14,18 @@ const { StatusCodes } = require("../enums")
 
 async function getVideoById(videoId) {
     if (!videoId) {
-        throw new CustomError(`id Not Found in the Request`, StatusCodes.BadRequest)
+        throw new CustomError(ErrorMessages.videoIdNotInRequest, StatusCodes.BadRequest)
     }
-    const videoObject = await findByVideoId(videoId);
+
+    const numericVideoId = parseInt(videoId);
+
+    if(isNaN(numericVideoId)){
+       throw new CustomError(ErrorMessages.invalidVideoId, StatusCodes.BadRequest)
+    }
+    const videoObject = await findByVideoId(numericVideoId);
 
     if (!videoObject) {
-        throw new CustomError(`No Video Found with the following VideoId : ${videoId}`, StatusCodes.NotFound)
+        throw new CustomError(`${ErrorMessages.noVideoFoundforVideoId}: ${numericVideoId}`, StatusCodes.NotFound)
     }
 
     const { videoid, title, description, url } = videoObject;
@@ -46,18 +52,25 @@ async function getVideoById(videoId) {
 async function submitVideoForUser(userEmail, videoId) {
 
     if (!videoId) {
-        throw new CustomError(`id not found in the request`, StatusCodes.BadRequest)
+        throw new CustomError(ErrorMessages.videoIdNotInRequest, StatusCodes.BadRequest)
     }
+
+    const numericVideoId = parseInt(videoId);
+
+     if(isNaN(numericVideoId)){
+       throw new CustomError(ErrorMessages.invalidVideoId, StatusCodes.BadRequest)
+    }
+
     const userObject = await findUserbyEmailId(userEmail)
 
     if (!userObject) {
-        throw new CustomError(`No User Found with the following EMail : ${userEmail}`, StatusCodes.NotFound)
+        throw new CustomError(`${ErrorMessages.userNotFoundWithEmail} : ${userEmail}`, StatusCodes.NotFound)
     }
 
     const videoObject = await findByVideoId(videoId);
 
     if (!videoObject) {
-        throw new CustomError(`No Video Found with the following VideoId : ${videoId}`, StatusCodes.NotFound)
+        throw new CustomError(`${ErrorMessages.noVideoFoundforVideoId}: ${videoId}`, StatusCodes.NotFound)
     }
 
     const { videoid } = videoObject;
