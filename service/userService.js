@@ -55,12 +55,12 @@ function validateLeaderBoardRequest(name, gender, department, page, limit) {
         errorArray.push(`Limit must be within the range of 1 and ${Constants.DefaultPageSize} and must be a number`);
     }
     
-    if(typeof name != undefined && name == ''){
-        errorArray.push('Name cannot be blank');
+    if(typeof name !== "undefined" && name == ''){
+        errorArray.push(ErrorMessages.blankName);
     }
 
     //gender in an enum
-    if (gender || gender == '') {
+    if (gender !== undefined) {
         const { isSuccess, message } = validateValueInList(gender, Constants.CorrectGenderList, ValidationFieldNames.gender)
         if (!isSuccess) {
             errorArray.push(message)
@@ -68,15 +68,13 @@ function validateLeaderBoardRequest(name, gender, department, page, limit) {
     }
 
     //department in an enum
-    if (department || department == '') {
+    if (department !== undefined) {
         const { isSuccess, message } = validateValueInList(department, Constants.CorrectDepartmentList, ValidationFieldNames.department)
         if (!isSuccess) {
             errorArray.push(message)
         }
 
     }
-
-   
 
     if (errorArray.length > 0) {
         throw new CustomError(errorArray.join("; "), StatusCodes.BadRequest);
