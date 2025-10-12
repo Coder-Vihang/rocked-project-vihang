@@ -1,6 +1,7 @@
 const { Gender, Department } = require("./enums")
 const Constants = {
     DefaultPointsEarned: 20,
+    zeroPoints: 0,
     DefaultPageNumber: 1,
     DefaultPageSize: 10,
     CorrectGenderList: [Gender.male, Gender.female],

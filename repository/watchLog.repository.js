@@ -6,6 +6,16 @@ async function createWatchLog(data) {
   return await WatchLog.create(data);
 };
 
+async function findWatchLogFromVideoIdUserId(videoId, userId) {
+  return await WatchLog.findOne({
+    where: {
+      videoid: videoId,
+      userid: userId
+    },
+    raw: true
+  })
+}
+
 // SELECT
 //   u.userid AS userId,
 //   u.email AS emailid,
@@ -67,7 +77,8 @@ async function findLeaderBoard(name, gender, department, limit, offset) {
 
 module.exports = {
   createWatchLog,
-  findLeaderBoard
+  findLeaderBoard,
+  findWatchLogFromVideoIdUserId
 }
 
 

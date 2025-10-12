@@ -1,5 +1,5 @@
 const { findByVideoId } = require('../repository/video.repository');
-const { createWatchLog } = require('../repository/watchLog.repository');
+const { createWatchLog, findWatchLogFromVideoIdUserId } = require('../repository/watchLog.repository');
 const { Constants } = require("../constants");
 const { findUserbyEmailId } = require('../repository/user.repository');
 const CustomError = require("../utils/error.utils");
@@ -67,17 +67,27 @@ async function submitVideoForUser(userEmail, videoId) {
         throw new CustomError(`${ErrorMessages.userNotFoundWithEmail} : ${userEmail}`, StatusCodes.NotFound)
     }
 
-    const videoObject = await findByVideoId(videoId);
+    const videoObject = await findByVideoId(numericVideoId);
 
     if (!videoObject) {
-        throw new CustomError(`${ErrorMessages.noVideoFoundforVideoId}: ${videoId}`, StatusCodes.NotFound)
+        throw new CustomError(`${ErrorMessages.noVideoFoundforVideoId}: ${numericVideoId}`, StatusCodes.NotFound)
     }
 
-    const { videoid } = videoObject;
+    // check the person has watched the video or not
+
+    const watchLogResponse = await findWatchLogFromVideoIdUserId(numericVideoId, userObject.userid);
+
+    if (watchLogResponse) {
+        return {
+            isSuccess: true,
+            message: `Video with id ${numericVideoId} has already been watched by User with email :${userEmail}`,
+            pointsEarned: Constants.zeroPoints
+        }
+    }
 
     //presently hardcoding it to Default Points
     const watchLogObject = {
-        videoid: videoid,
+        videoid: numericVideoId,
         userid: userObject.userid,
         pointsEarned: Constants.DefaultPointsEarned,
     }
@@ -86,7 +96,8 @@ async function submitVideoForUser(userEmail, videoId) {
 
     return {
         isSuccess: true,
-        message: "Watch Log Entry Created Successfully"
+        message: "Watch Log Entry Created Successfully",
+        pointsEarned: Constants.DefaultPointsEarned
     }
 }
 
