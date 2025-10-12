@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "b48e5901-7beb-4710-b05f-97135daf116b",
+		"name": "Rocked API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24982061"
+	},
+	"item": [
+		{
+			"name": "Get Video",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/rocked/v1/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rocked",
+						"v1",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-user-email",
+						"value": "xynthia.jankie@example.com",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 9\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/rocked/v1/submit",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rocked",
+						"v1",
+						"submit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LeaderBoard",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/rocked/v1/leaderboard?gender=MalE",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rocked",
+						"v1",
+						"leaderboard"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "San",
+							"disabled": true
+						},
+						{
+							"key": "gender",
+							"value": "MalE"
+						},
+						{
+							"key": "department",
+							"value": "Sales",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "heartbeat",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/heartbeat",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"heartbeat"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
