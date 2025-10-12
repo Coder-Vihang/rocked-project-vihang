@@ -28,12 +28,14 @@ WatchLog.belongsTo(Video, { foreignKey: "videoid", targetKey: "videoid" });
  ***/
 async function initiliazeTables() {
   try {
-    await sequelize.sync({alter:true});
+    // run this only once while creating tables at the start
+    //await sequelize.sync({ force: true });
+    await sequelize.sync();
     await syncUsers(User);
     await syncVideos(Video);
     console.log("Users and Videos Syncing complete!");
   } catch (err) {
-    console.error("DB init failed:", err);
+    console.error("DB init failed:", err.message);
   }
 }
 
