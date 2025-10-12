@@ -11,44 +11,17 @@ async function getUserLeaderBoard(filters) {
     const numericPage = parseInt(page);
     const numericLimit = parseInt(limit)
 
-    const userRankedData = await findLeaderBoard()
+    let offset = (numericPage - 1) * numericLimit;
+
+    const userRankedData = await findLeaderBoard(name, gender, department, numericLimit, offset)
 
     const rankedData = userRankedData.map((user, index) => ({
-        ...user,
-        userName: `${user.title} ${user.first} ${user.last}`,
-        rank: index+1,
-    }));
-
-    let filteredData = rankedData;
-
-    if (name) {
-        filteredData = filteredData.filter((user) => {
-            let tempUserName = `${user.title} ${user.first} ${user.last}`;
-
-            return compareStrings(tempUserName, name);
-        })
-    }
-
-    if (gender) {
-        filteredData = filteredData.filter(
-            (user) => compareStrings(user.gender, gender)
-        );
-    }
-
-    if (department) {
-        filteredData = filteredData.filter(
-            (user) => compareStrings(user.department, department)
-        );
-    }
-
-const startIndex = (numericPage - 1) * numericLimit;
-const paginatedData = filteredData.slice(startIndex, startIndex + numericLimit);
-
-    return paginatedData.map((user) => ({
         email: user.email,
-        name: user.userName,
-        rank: user.rank,
+        name: `${user.title} ${user.first} ${user.last}`,
+        rank: index+1
     }));
+
+     return rankedData
 }
 
 module.exports = {
